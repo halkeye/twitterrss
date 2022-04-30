@@ -64,7 +64,7 @@ func main() {
 	r.HandleFunc("/healthcheck", HealthCheckHandler)
 
 	for i := 0; i < len(flags.usernames); i++ {
-		url := fmt.Sprintf("/feed/%s", flags.usernames[i])
+		url := fmt.Sprintf("/feed/%s.xml", flags.usernames[i])
 		log.Print(url)
 		r.HandleFunc(url, UsernameHandler(flags.usernames[i], flags.consumerKey, flags.consumerSecret))
 	}
@@ -135,9 +135,9 @@ func UsernameHandler(username string, consumerKey string, consumerSecret string)
 		}
 
 		feed := &feeds.Feed{
-			Title:       fmt.Sprintf("%s tweets", "dgSHiFTCodes"),
-			Link:        &feeds.Link{Href: "your feed link"},
-			Description: fmt.Sprintf("%s tweets", "dgSHiFTCodes"),
+			Title:       fmt.Sprintf("%s tweets", username),
+			Link:        &feeds.Link{Href: r.URL.Path},
+			Description: fmt.Sprintf("%s tweets", username),
 			Author:      &feeds.Author{Name: "https://github.com/halkeye/twitterrss"},
 			Created:     time.Now(),
 		}
